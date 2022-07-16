@@ -2,7 +2,6 @@ from datetime import datetime
 
 import hikari
 import lightbulb
-from lib.model import bonfire
 
 """
 Handle member information
@@ -97,9 +96,9 @@ async def userinfo(ctx: lightbulb.Context) -> None:
     get_roles = (await target.fetch_roles())[1:]  # All but @everyone
     roles = ', '.join([role.name for role in get_roles])
 
-    bonfire.execute("INSERT INTO MEMBER VALUES (?, ?, ?, ?, ?)",
-                    user_id, name, roles, joined_at, is_bot)
-    bonfire.commit()
+    # bonfire.execute("INSERT INTO MEMBER VALUES (?, ?, ?, ?, ?)",
+    #                 user_id, name, roles, joined_at, is_bot)
+    # bonfire.commit()
 
     await ctx.respond(f"Added {target.mention} into bonfire")
 

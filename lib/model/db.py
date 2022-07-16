@@ -1,12 +1,7 @@
 from __future__ import annotations
 from sqlite3 import connect
 
-import datetime as dt
 import logging
-import os
-import re
-import typing as t
-from pathlib import Path
 
 log = logging.getLogger(__name__)
 
@@ -61,8 +56,8 @@ class Database():
             self.cur.executescript(script.read())
 
 
-if __name__ == "__main__":
-    DB_PATH = "./lib/database/test.db"
-    BUILD_PATH = "./lib/schema/schema.sql"
-    db = Database(DB_PATH, BUILD_PATH)
-    db.connect()
+# if __name__ == "__main__":
+#     DB_PATH = "./lib/database/test.db"
+#     BUILD_PATH = "./lib/schema/schema.sql"
+#     db = Database(DB_PATH, BUILD_PATH)
+#     db.connect()
