@@ -13,6 +13,7 @@ from pytz import utc
 from aiohttp import ClientSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from hikari.events.base_events import FailedEventT
+from lib.model.db import Database
 
 log = logging.getLogger(__name__)
 
@@ -24,9 +25,16 @@ bot = lightbulb.BotApp(
     help_slash_command=True
 )
 
+# Scheduler
 bot.d.sched = AsyncIOScheduler()
 bot.d.sched.configure(timezone=utc)
 
+# Database
+DB_PATH = "./lib/database/bonfire.db"
+BUILD_PATH = "./lib/schema/schema.sql"
+bot.d.db = Database(DB_PATH, BUILD_PATH)
+
+# Extension
 bot.load_extensions_from("./tiamut/extensions", must_exist=True)
 
 
@@ -37,6 +45,7 @@ async def on_starting(event: hikari.StartingEvent) -> None:
     log.info("AIOHTTP session started")
 
     # Database connection...
+    bot.d.db.connect()
 
 
 @bot.listen(hikari.StartedEvent)
@@ -52,6 +61,8 @@ async def on_stopping(_: hikari.StoppingEvent) -> None:
     bot.d.sched.shutdown()
     await bot.d.session.close()
     log.info("AIOHTTP session closed")
+
+    bot.d.db.close()
 
     await bot.rest.create_message(
         int(os.environ["STDOUT_CHANNEL_ID"]),

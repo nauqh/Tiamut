@@ -1,7 +1,6 @@
 import hikari
 import lightbulb
 import os
-from lib.model import bonfire
 from datetime import datetime as dt
 from apscheduler.triggers.cron import CronTrigger
 
@@ -46,9 +45,9 @@ async def task(ctx: lightbulb.Context) -> None:
     content = ctx.options.content
     date = ctx.options.date
 
-    bonfire.execute("INSERT INTO task VALUES (?, ?, ?)",
-                    target.id, content, date)
-    bonfire.commit()
+    # bonfire.execute("INSERT INTO task VALUES (?, ?, ?)",
+    #                 target.id, content, date)
+    # bonfire.commit()
 
     await ctx.respond(f"{target.mention} task is added")
 
@@ -61,8 +60,8 @@ async def task(ctx: lightbulb.Context) -> None:
 async def task(ctx: lightbulb.Context) -> None:
     target = ctx.get_guild().get_member(ctx.user)
 
-    resp = bonfire.records(
-        f"SELECT * FROM task WHERE task_memid = {target.id}")
+    # resp = bonfire.records(
+    #     f"SELECT * FROM task WHERE task_memid = {target.id}")
 
     # [(815706256463364116, 'Wake me up', '3:00 8 July 2022')]
 
