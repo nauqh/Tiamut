@@ -32,8 +32,29 @@ class Database():
         self.db.close()
         log.info("Closed database connection")
 
+    def record(self, command, *values):
+        self.cur.execute(command, tuple(values))
+
+        return self.cur.fetchone()
+
+    def records(self, command, *values):
+        self.cur.execute(command, tuple(values))
+
+        return self.cur.fetchall()
+
+    def field(self, command, *values):
+        self.cur.execute(command, tuple(values))
+
+        if (fetch := self.cur.fetchone()) is not None:
+            return fetch[0]
+
     def execute(self, command, *values):
         self.cur.execute(command, tuple(values))
+
+    def column(self, command, *values):
+        self.cur.execute(command, tuple(values))
+
+        return [item[0] for item in self.cur.fetchall()]
 
     def scriptexec(self, path):
         with open(path, 'r', encoding="utf-8") as script:
