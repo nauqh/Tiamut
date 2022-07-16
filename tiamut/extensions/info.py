@@ -100,10 +100,6 @@ async def userinfo(ctx: lightbulb.Context) -> None:
                          user_id, name, roles, joined_at, is_bot)
     ctx.bot.d.db.commit()
 
-    # bonfire.execute("INSERT INTO MEMBER VALUES (?, ?, ?, ?, ?)",
-    #                 user_id, name, roles, joined_at, is_bot)
-    # bonfire.commit()
-
     await ctx.respond(f"Added {target.mention} into bonfire")
 
 
