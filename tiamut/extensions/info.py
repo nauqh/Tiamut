@@ -96,6 +96,10 @@ async def userinfo(ctx: lightbulb.Context) -> None:
     get_roles = (await target.fetch_roles())[1:]  # All but @everyone
     roles = ', '.join([role.name for role in get_roles])
 
+    ctx.bot.d.db.execute("INSERT INTO member VALUES (?, ?, ?, ?, ?)",
+                         user_id, name, roles, joined_at, is_bot)
+    ctx.bot.d.db.commit()
+
     # bonfire.execute("INSERT INTO MEMBER VALUES (?, ?, ?, ?, ?)",
     #                 user_id, name, roles, joined_at, is_bot)
     # bonfire.commit()

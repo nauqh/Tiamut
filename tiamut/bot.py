@@ -12,7 +12,6 @@ import lightbulb
 from pytz import utc
 from aiohttp import ClientSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from hikari.events.base_events import FailedEventT
 from lib.model.db import Database
 
 log = logging.getLogger(__name__)
@@ -68,11 +67,6 @@ async def on_stopping(_: hikari.StoppingEvent) -> None:
         int(os.environ["STDOUT_CHANNEL_ID"]),
         f"📉 Tiamut is shutting down. (Version {tiamut.__version__})",
     )
-
-
-@bot.listen(hikari.ExceptionEvent)
-async def on_error(event: hikari.ExceptionEvent[FailedEventT]) -> None:
-    raise event.exception
 
 
 def run() -> None:

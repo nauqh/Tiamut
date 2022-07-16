@@ -18,6 +18,11 @@ class Database():
         self.db = connect(self.db_path, check_same_thread=False)
         self.cur = self.db.cursor()
         log.info(f"Connected to database at {self.db_path}\n")
+        self.build()
+
+    def build(self):
+        self.scriptexec(self.sql_path)
+        self.commit()
 
     def commit(self):
         self.db.commit()

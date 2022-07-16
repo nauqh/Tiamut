@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS attachment(
     att_scr TEXT NOT NULL           -- Source    
 );
 
-CREATE TABLE IF NOT EXISTS task(
-    -- task_id INTEGER PRIMARY KEY     -- Task ID
-    task_memid NOT NULL INTEGER,             -- Member ID
-    task_content NOT NULL TEXT,              -- Task content
-    task_date NOT NULL TEXT                  -- Schedule date
-);
+-- CREATE TABLE IF NOT EXISTS task(
+--     -- task_id INTEGER PRIMARY KEY     -- Task ID
+--     task_memid NOT NULL INTEGER,             -- Member ID
+--     task_content NOT NULL TEXT,              -- Task content
+--     task_date NOT NULL TEXT                  -- Schedule date
+-- );
 
