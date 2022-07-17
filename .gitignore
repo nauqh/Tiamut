@@ -5,4 +5,4 @@
 __pycache__/
 songs.py
 admin
-tiamut/extensions/spotify.py
+spotify.py
