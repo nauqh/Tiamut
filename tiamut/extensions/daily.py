@@ -81,7 +81,7 @@ async def task(ctx: lightbulb.Context) -> None:
 
     for task in resp:
         embed.add_field(
-            task[3],
+            f"Date: {task[3]}",
             f"`{task[2]}`",
             inline=False
         )
