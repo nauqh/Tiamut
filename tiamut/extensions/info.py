@@ -81,8 +81,6 @@ async def userinfo(ctx: lightbulb.Context) -> None:
     ID, Name, Roles, Joindate, Isbot
     """
     target = ctx.get_guild().get_member(ctx.options.target or ctx.user)
-    members = ctx.get_guild().get_members()
-    print(members.items)
 
     if not target:
         await ctx.respond("That user is not in the server.")

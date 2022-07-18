@@ -8,11 +8,11 @@ import os
 import tiamut
 import hikari
 import lightbulb
+from database.db import Database
 
 from pytz import utc
 from aiohttp import ClientSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from database.db import Database
 
 log = logging.getLogger(__name__)
 
