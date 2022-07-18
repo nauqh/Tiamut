@@ -12,7 +12,7 @@ Contain functions for daily reminder or updates from APIs
 :doc: https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html
 """
 
-daily_plugin = lightbulb.Plugin("Daily")
+daily_plugin = lightbulb.Plugin("Daily", "⛅ Daily updates utilities")
 
 CHANNEL = int(os.environ["STDOUT_CHANNEL_ID"])
 
@@ -33,7 +33,7 @@ async def msg() -> None:
     "content", "Reminder content", str, required=True
 )
 @lightbulb.option(
-    "date", "Date of event", str, required=True
+    "date", "Date of event (dd/mm/yyyy)", str, required=True
 )
 @lightbulb.command(
     "task", "Add task"
