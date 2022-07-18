@@ -12,7 +12,7 @@ import lightbulb
 from pytz import utc
 from aiohttp import ClientSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from lib.model.db import Database
+from database.db import Database
 
 log = logging.getLogger(__name__)
 
@@ -29,8 +29,8 @@ bot.d.sched = AsyncIOScheduler()
 bot.d.sched.configure(timezone=utc)
 
 # Database
-DB_PATH = "./lib/database/bonfire.db"
-BUILD_PATH = "./lib/schema/schema.sql"
+DB_PATH = "./database/bonfire.db"
+BUILD_PATH = "./database/schema.sql"
 bot.d.db = Database(DB_PATH, BUILD_PATH)
 
 # Extension
