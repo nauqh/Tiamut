@@ -67,7 +67,7 @@ async def task(ctx: lightbulb.Context) -> None:
 
     embed = (
         hikari.Embed(
-            title=f"Task - {target.display_name}",
+            title=f"{target.display_name} - Task",
             description=f"ID: {target.id}",
             colour=0x181818,
             timestamp=dt.now().astimezone(),

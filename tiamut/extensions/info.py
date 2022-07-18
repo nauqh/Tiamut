@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import hikari
@@ -9,6 +10,9 @@ Handle member information
 """
 
 info_plugin = lightbulb.Plugin("Info", "📝 Member information commands")
+
+GUILD_ID = int(os.environ["GUILD_ID"])
+CHANNEL = int(os.environ["STDOUT_CHANNEL_ID"])
 
 
 @info_plugin.command
@@ -80,25 +84,26 @@ async def userinfo(ctx: lightbulb.Context) -> None:
     """
     ID, Name, Roles, Joindate, Isbot
     """
-    target = ctx.get_guild().get_member(ctx.options.target or ctx.user)
+    length = 0
+    async for target in info_plugin.bot.rest.fetch_members(GUILD_ID):
+        if not target:
+            await ctx.respond("That user is not in the server.")
+            return
 
-    if not target:
-        await ctx.respond("That user is not in the server.")
-        return
+        user_id = target.id
+        name = target.username
+        joined_at = target.joined_at
+        is_bot = str(target.is_bot)
 
-    user_id = target.id
-    name = target.username
-    joined_at = target.joined_at
-    is_bot = str(target.is_bot)
+        get_roles = (await target.fetch_roles())[1:]  # All but @everyone
+        roles = ', '.join([role.name for role in get_roles])
 
-    get_roles = (await target.fetch_roles())[1:]  # All but @everyone
-    roles = ', '.join([role.name for role in get_roles])
+        ctx.bot.d.db.execute("INSERT INTO member VALUES (?, ?, ?, ?, ?)",
+                             user_id, name, roles, joined_at, is_bot)
+        ctx.bot.d.db.commit()
+        length += 1
 
-    ctx.bot.d.db.execute("INSERT INTO member VALUES (?, ?, ?, ?, ?)",
-                         user_id, name, roles, joined_at, is_bot)
-    ctx.bot.d.db.commit()
-
-    await ctx.respond(f"Added {target.mention} into bonfire")
+        await ctx.respond(f"Added {target.mention} into bonfire")
 
 
 def load(bot: lightbulb.BotApp) -> None:
