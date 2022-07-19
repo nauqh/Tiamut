@@ -18,14 +18,14 @@ CHANNEL = int(os.environ["STDOUT_CHANNEL_ID"])
 
 
 async def msg() -> None:
-    await daily_plugin.app.rest.create_message(CHANNEL, "Morning Message\n Here is our today tasks:")
+    await daily_plugin.app.rest.create_message(CHANNEL, "Here are our today tasks:")
 
 
-# @daily_plugin.listener(hikari.StartedEvent)
-# async def on_started(_: hikari.StartedEvent) -> None:
-#     # This event fires once, when the BotApp is fully started.
-#     daily_plugin.app.d.sched.add_job(
-#         msg, CronTrigger(second=10))
+@daily_plugin.listener(hikari.StartedEvent)
+async def on_started(_: hikari.StartedEvent) -> None:
+    # This event fires once, when the BotApp is fully started.
+    daily_plugin.app.d.sched.add_job(
+        msg, CronTrigger(second=10))
 
 
 @daily_plugin.command
@@ -33,7 +33,7 @@ async def msg() -> None:
     "content", "Reminder content", str, required=True
 )
 @lightbulb.option(
-    "date", "Date of event (dd/mm/yyyy)", str, required=True
+    "date", "Date of event (dd Mon yyyy)", str, required=True
 )
 @lightbulb.command(
     "task", "Add task"
@@ -65,7 +65,7 @@ async def task(ctx: lightbulb.Context) -> None:
 
     embed = (
         hikari.Embed(
-            title=f"{target.display_name} - Task",
+            title=f"{target.display_name} - Task Board",
             description=f"`ID: {target.id}`",
             colour=0x181818,
             timestamp=dt.now().astimezone(),
@@ -104,6 +104,20 @@ async def task(ctx: lightbulb.Context) -> None:
         )
 
     await ctx.respond(embed)
+
+
+@daily_plugin.command
+@lightbulb.command(
+    "detask", "Remove all tasks"
+)
+@lightbulb.implements(lightbulb.SlashCommand)
+async def detask(ctx: lightbulb.Context) -> None:
+    target = ctx.get_guild().get_member(ctx.user)
+
+    ctx.bot.d.db.execute(
+        f"DELETE FROM task WHERE task_memid = {target.id}"
+    )
+    await ctx.respond(f"Deleted all {target.mention}'s tasks")
 
 
 def load(bot: lightbulb.BotApp) -> None:
