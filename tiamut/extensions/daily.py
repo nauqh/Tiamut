@@ -66,7 +66,7 @@ async def task(ctx: lightbulb.Context) -> None:
     embed = (
         hikari.Embed(
             title=f"{target.display_name} - Task",
-            description=f"ID: {target.id}",
+            description=f"`ID: {target.id}`",
             colour=0x181818,
             timestamp=dt.now().astimezone(),
         )
@@ -92,13 +92,13 @@ async def task(ctx: lightbulb.Context) -> None:
     for date in reminder:
         job = ""
         for task in reminder[date]:
-            job += f"📦 {task}\n"
+            job += f"- {task}\n"
         jobs.append(job)
         days.append(date)
 
     for i in range(len(days)):
         embed.add_field(
-            f"Date: {days[i]}",
+            f"📌 - {days[i]}",
             str(jobs[i]),
             inline=False
         )
