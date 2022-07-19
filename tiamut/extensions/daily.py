@@ -63,8 +63,6 @@ async def task(ctx: lightbulb.Context) -> None:
     resp = ctx.bot.d.db.records(
         f"SELECT * FROM task WHERE task_memid = {target.id}")
 
-    # [(815706256463364116, 'Wake me up', '3:00 8 July 2022')]
-
     embed = (
         hikari.Embed(
             title=f"{target.display_name} - Task",
@@ -79,10 +77,29 @@ async def task(ctx: lightbulb.Context) -> None:
         .set_thumbnail(target.avatar_url or target.default_avatar_url)
     )
 
-    for task in resp:
+    reminder = {}
+    for item in resp:
+        date = item[3]
+        reminder[date] = []
+
+    for item in resp:
+        date = item[3]
+        task = item[2]
+        reminder[date] += [task]
+
+    days = []
+    jobs = []
+    for date in reminder:
+        job = ""
+        for task in reminder[date]:
+            job += f"📦 {task}\n"
+        jobs.append(job)
+        days.append(date)
+
+    for i in range(len(days)):
         embed.add_field(
-            f"Date: {task[3]}",
-            f"`{task[2]}`",
+            f"Date: {days[i]}",
+            str(jobs[i]),
             inline=False
         )
 
