@@ -6,7 +6,6 @@ import lightbulb
 
 """
 Handle member information
-
 """
 
 info_plugin = lightbulb.Plugin("Info", "📝 Member information commands")

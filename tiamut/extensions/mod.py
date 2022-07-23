@@ -1,12 +1,9 @@
 import asyncio
-
 import hikari
 import lightbulb
 
 """
 Administration functionalities
-
-
 """
 
 mod_plugin = lightbulb.Plugin("Mod", "⚙️ Moderation commands")

@@ -57,7 +57,7 @@ Local hosting of Tiamut is also possible
 Install dependencies:
 
 ```sh
-$ pip3 install requirements.txt
+$ pip install -r requirements.txt
 ```
 
 Clone the repo:

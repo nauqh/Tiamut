@@ -25,7 +25,7 @@ async def msg() -> None:
 async def on_started(_: hikari.StartedEvent) -> None:
     # This event fires once, when the BotApp is fully started.
     daily_plugin.app.d.sched.add_job(
-        msg, CronTrigger(second=10))
+        msg, CronTrigger(second=10, day_of_week=1))
 
 
 @daily_plugin.command
